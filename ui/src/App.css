@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
+.main {
+  float: left;
+  width: 60%;
+  padding: 10px;
+}
+
+.sidebar {
+  float: left;
+  width: 20%;
+  padding: 10px;
+}
+
+
