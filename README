@@ -1,0 +1,7 @@
+make idl
+
+make envoy
+
+make run
+
+cd ui && npm start

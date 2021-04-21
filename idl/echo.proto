@@ -12,4 +12,5 @@ message EchoResponse {
 
 service Echo {
   rpc Echo(EchoRequest) returns (EchoResponse);
+  rpc EchoStream(EchoRequest) returns (stream EchoResponse);
 }

@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	port = ":50051"
+	port = ":9090"
 )
 
 type server struct {
@@ -20,6 +20,14 @@ type server struct {
 func (s *server) Echo(ctx context.Context, in *idl.EchoRequest) (*idl.EchoResponse, error) {
 	log.Printf("Received: %v", in.GetMessage())
 	return &idl.EchoResponse{Message: "Hello " + in.GetMessage()}, nil
+}
+
+func (s *server) EchoStream(in *idl.EchoRequest, stream idl.Echo_EchoStreamServer) error {
+	log.Printf("Receieved stream request: %v", in.GetMessage)
+	stream.Send(&idl.EchoResponse{
+		Message: "STREAM " + in.GetMessage(),
+	})
+	return nil
 }
 
 func main() {
