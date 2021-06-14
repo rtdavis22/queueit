@@ -1,3 +1,5 @@
+import React from 'react';
+
 import './App.css';
 import Main from './Main.js';
 
@@ -28,7 +30,6 @@ function App() {
     console.log(`Unexpected stream error: code = ${err.code}` +
                 `, message = "${err.message}"`);
   });
-
 
   return (
     <div className="App">

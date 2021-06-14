@@ -4,6 +4,7 @@ ui/src/gen
 ui/node_modules
 
 # dependencies
+ui/dist
 ui/node_modules
 ui/.pnp
 ui/.pnp.js
