@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package = "github.com/rtdavis22/queueit/idl";
+
+message QueueConfig {
+  int64 id = 1;
+  string name = 2;
+}
+
+message QueueConfigRequest {
+  string domain = 1;
+}
+
+message QueueConfigResponse {
+  repeated QueueConfig configs = 1;
+}
+
+service QueueIt {
+  rpc GetQueueConfigs(QueueConfigRequest) returns (QueueConfigResponse);
+  //rpc EchoStream(EchoRequest) returns (stream EchoResponse);
+}

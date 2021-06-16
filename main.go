@@ -14,20 +14,11 @@ const (
 )
 
 type server struct {
-	idl.UnimplementedEchoServer
+	idl.UnimplementedQueueItServer
 }
 
-func (s *server) Echo(ctx context.Context, in *idl.EchoRequest) (*idl.EchoResponse, error) {
-	log.Printf("Received: %v", in.GetMessage())
-	return &idl.EchoResponse{Message: "Hello " + in.GetMessage()}, nil
-}
-
-func (s *server) EchoStream(in *idl.EchoRequest, stream idl.Echo_EchoStreamServer) error {
-	log.Printf("Receieved stream request: %v", in.GetMessage)
-	stream.Send(&idl.EchoResponse{
-		Message: "STREAM " + in.GetMessage(),
-	})
-	return nil
+func (s *server) GetQueueConfigs(ctx context.Context, in *idl.QueueConfigRequest) (*idl.QueueConfigResponse, error) {
+	return &idl.QueueConfigResponse{}, nil
 }
 
 func main() {
@@ -36,7 +27,7 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	idl.RegisterEchoServer(s, &server{})
+	idl.RegisterQueueItServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
