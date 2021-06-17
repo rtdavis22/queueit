@@ -9,8 +9,13 @@ services:
   environment:
   - MYSQL_ROOT_PASSWORD=password
   volumes:
-  - mysql:/usr/local/var/mysql
+  - /usr/local/var/mysql:/var/lib/mysql
   - ./init:/docker-entrypoint-initdb.d/:ro
 
-volumes:
-  mysql:
+ envoy:
+  image: envoyproxy/envoy-dev:9d2b3ff9d41ab4469bd870e78cde2c27845fc8f5
+  ports:
+  - 8080:8080
+  - 9901:9901
+  volumes:
+  - ./envoy.yaml:/etc/envoy/envoy.yaml

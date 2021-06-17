@@ -20,8 +20,3 @@ devenv-up:
 
 devenv-down:
 	docker-compose -f dev/docker-compose.yaml down
-
-# use docker-compose?
-# from https://github.com/grpc/grpc-web/tree/master/net/grpc/gateway/examples/helloworld
-envoy:
-	docker run -d -v "$(shell pwd)"/envoy.yaml:/etc/envoy/envoy.yaml:ro -p 8080:8080 -p 9901:9901 envoyproxy/envoy:v1.17.0
