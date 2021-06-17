@@ -9,6 +9,12 @@ idl: idl/queueit.proto
 idl-clean:
 	rm -rf gen/idl ui/src/gen/idl
 
+devenv-up:
+	docker-compose -f dev/docker-compose.yaml up -d
+
+devenv-down:
+	docker-compose -f dev/docker-compose.yaml down
+
 # use docker-compose?
 # from https://github.com/grpc/grpc-web/tree/master/net/grpc/gateway/examples/helloworld
 envoy:
