@@ -1,40 +1,28 @@
 import React from 'react';
 
 import './App.css';
-import Main from './Main.js';
+import Main from './Main';
 
-const {EchoRequest, EchoResponse} = require('./gen/idl/echo_pb.js');
-const {EchoClient} = require('./gen/idl/echo_grpc_web_pb.js');
+const {QueueConfigRequest} = require('./gen/idl/queueit_pb');
+const {QueueItClient} = require('./gen/idl/queueit_grpc_web_pb');
 
+export default function App() {
+  const client = new QueueItClient('http://localhost:8080');
 
-function App() {
-  var echoService = new EchoClient('http://localhost:8080');
+  const request = new QueueConfigRequest();
+  request.setDomain('default');
 
-  var request = new EchoRequest();
-  request.setMessage('Hello World!');
-
-  echoService.echo(request, {}, function(err, response) {
-    console.log('Response', response);
-    console.log('Error', err);
-  });
-
-  // stream request
-  var streamRequest = new EchoRequest();
-  streamRequest.setMessage('STREAM');
-
-  var stream = echoService.echoStream(streamRequest, {});
-  stream.on('data', (response) => {
-    console.log(response.getMessage());
-   });
-  stream.on('error', (err) => {
-    console.log(`Unexpected stream error: code = ${err.code}` +
-                `, message = "${err.message}"`);
+  client.getQueueConfigs(request, {}, (err, response) => {
+    response.getConfigsList().forEach((config) => {
+      console.log(config.getId());
+      console.log(config.getName());
+    });
   });
 
   return (
     <div className="App">
       <div className="sidebar">
-	  Column 1
+        Column 1
       </div>
       <div className="main">
         <Main />
@@ -45,5 +33,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

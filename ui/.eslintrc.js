@@ -7,6 +7,9 @@ module.exports = {
     'plugin:react/recommended',
     'airbnb',
   ],
+  ignorePatterns: [
+    'gen/',
+  ],
   parser: "@babel/eslint-parser",
   parserOptions: {
     ecmaFeatures: {
