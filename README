@@ -1,7 +1,17 @@
+## Development
+First create generated protobuf code:
+```
 make idl
-
-make envoy
-
+```
+Then start some needed Docker containers:
+```
+make devenv-up
+```
+To run the back-end:
+```
 make run
-
-cd ui && npm start
+```
+To run the front-end:
+```
+cd ui && npm run serve
+```
