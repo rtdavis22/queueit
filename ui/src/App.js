@@ -1,31 +1,46 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+
+import Main from './Main';
+import {QueueConfigRequest} from './gen/idl/queueit_pb';
+import {QueueItClient} from './gen/idl/queueit_grpc_web_pb';
 
 import './App.css';
-import Main from './Main';
-
-const {QueueConfigRequest} = require('./gen/idl/queueit_pb');
-const {QueueItClient} = require('./gen/idl/queueit_grpc_web_pb');
 
 export default function App() {
-  const client = new QueueItClient('http://localhost:8080');
+  const [queueConfigs, setQueueConfigs] = useState([]);
+  const [activeQueueId, setActiveQueueId] = useState(null);
 
-  const request = new QueueConfigRequest();
-  request.setDomain('default');
+  useEffect(() => {
+    // Move elsewhere
+    const client = new QueueItClient('http://localhost:8080');
 
-  client.getQueueConfigs(request, {}, (err, response) => {
-    response.getConfigsList().forEach((config) => {
-      console.log(config.getId());
-      console.log(config.getName());
+    const request = new QueueConfigRequest();
+    request.setDomain('default');
+
+    client.getQueueConfigs(request, {}, (_, response) => {
+      setQueueConfigs(response.getConfigsList());
     });
-  });
+  }, []);
+
+  const nav = queueConfigs.map((config) => (
+    <li key={config.getId()}>
+      <button type="button" onClick={() => setActiveQueueId(config.getId())}>
+        {config.getName()}
+      </button>
+    </li>
+  ));
 
   return (
     <div className="App">
       <div className="sidebar">
-        Column 1
+        <nav>
+          <ol>
+            {nav}
+          </ol>
+        </nav>
       </div>
       <div className="main">
-        <Main />
+        <Main activeQueueId={activeQueueId} />
       </div>
       <div className="sidebar">
         Column 3
