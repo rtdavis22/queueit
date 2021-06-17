@@ -3,7 +3,7 @@ syntax = "proto3";
 option go_package = "github.com/rtdavis22/queueit/idl";
 
 message QueueConfig {
-  int64 id = 1;
+  uint64 id = 1;
   string name = 2;
 }
 
