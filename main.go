@@ -1,34 +1,33 @@
 package main
 
 import (
-	"context"
 	"log"
 	"net"
 
-	"github.com/rtdavis22/queueit/gen/idl"
 	"google.golang.org/grpc"
+
+	"github.com/rtdavis22/queueit/api"
+	"github.com/rtdavis22/queueit/db"
+	"github.com/rtdavis22/queueit/gen/idl"
 )
 
 const (
 	port = ":9090"
 )
 
-type server struct {
-	idl.UnimplementedQueueItServer
-}
-
-func (s *server) GetQueueConfigs(ctx context.Context, in *idl.QueueConfigRequest) (*idl.QueueConfigResponse, error) {
-	return &idl.QueueConfigResponse{}, nil
-}
-
 func main() {
-	lis, err := net.Listen("tcp", port)
+	db, err := db.NewDatabase()
+	if err != nil {
+		log.Fatalf("failed to create db: %v", err)
+	}
+
+	listener, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	s := grpc.NewServer()
-	idl.RegisterQueueItServer(s, &server{})
-	if err := s.Serve(lis); err != nil {
+	server := grpc.NewServer()
+	idl.RegisterQueueItServer(server, api.NewService(db))
+	if err := server.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }
