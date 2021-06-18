@@ -1,3 +1,5 @@
+/* eslint-disable react/no-danger */
+
 import React, {useEffect, useState} from 'react';
 
 import QueueItAPI from './QueueItAPI';
@@ -30,12 +32,18 @@ function Main(props) {
 
   let item = null;
   if (activeQueueItemId !== null) {
+    // This mess seems to be necessary so React doesn't try to unmount nodes that were
+    // already destroyed by the Twitter widgets API.
     item = (
       <div>
         <p>{queueItems[activeQueueItemId].getTweetUrl()}</p>
-        <blockquote className="twitter-tweet">
-          <a href={queueItems[activeQueueItemId].getTweetUrl()}>Tweet</a>
-        </blockquote>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: `
+              <blockquote class="twitter-tweet">
+                <a href="${queueItems[activeQueueItemId].getTweetUrl()}">Tweet</a>
+              </blockquote>`,
+          }} />
       </div>
     );
   }
