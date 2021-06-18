@@ -27,7 +27,7 @@ func (d *Database) CreateQueue(domain string, name string) error {
 
 func (d *Database) GetQueueConfigsByDomain(domain string) ([]*idl.QueueConfig, error) {
 	var queueConfigs []QueueConfig
-	if err := d.conn.Where("Domain = ?", domain).Find(&queueConfigs).Error; err != nil {
+	if err := d.conn.Where("domain = ?", domain).Find(&queueConfigs).Error; err != nil {
 		return nil, err
 	}
 

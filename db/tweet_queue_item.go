@@ -24,7 +24,7 @@ func (d *Database) CreateTweetQueueItem(queueID uint64, tweetUrl string) error {
 
 func (d *Database) GetTweetQueueItems(queueID uint64) ([]*idl.TweetQueueItem, error) {
 	var tweetQueueItems []TweetQueueItem
-	if err := d.conn.Where("QueueID = ?", queueID).Find(&tweetQueueItems).Error; err != nil {
+	if err := d.conn.Where("queue_id = ?", queueID).Find(&tweetQueueItems).Error; err != nil {
 		return nil, err
 	}
 
