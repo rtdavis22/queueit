@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
 
 import Main from './Main';
+import TempBar from './TempBar';
 import {QueueConfigRequest} from './gen/idl/queueit_pb';
 import {QueueItClient} from './gen/idl/queueit_grpc_web_pb';
 
 import './App.css';
 
 export default function App() {
-  const [queueConfigs, setQueueConfigs] = useState([]);
+  const [queueConfigs, setQueueConfigs] = useState({});
   const [activeQueueId, setActiveQueueId] = useState(null);
 
   useEffect(() => {
@@ -18,17 +19,22 @@ export default function App() {
     request.setDomain('default');
 
     client.getQueueConfigs(request, {}, (_, response) => {
-      setQueueConfigs(response.getConfigsList());
+      setQueueConfigs(response.getConfigsList().reduce((acc, cur) => {
+        acc[cur.getId()] = cur;
+        return acc;
+      }, {}));
     });
   }, []);
 
-  const nav = queueConfigs.map((config) => (
-    <li key={config.getId()}>
-      <button type="button" onClick={() => setActiveQueueId(config.getId())}>
-        {config.getName()}
+  const nav = Object.keys(queueConfigs).map((id) => (
+    <li key={id}>
+      <button type="button" onClick={() => setActiveQueueId(id)}>
+        {queueConfigs[id].getName()}
       </button>
     </li>
   ));
+
+  const activeQueueConfig = queueConfigs[activeQueueId] || null;
 
   return (
     <div className="App">
@@ -40,10 +46,10 @@ export default function App() {
         </nav>
       </div>
       <div className="main">
-        <Main activeQueueId={activeQueueId} />
+        <Main queueConfig={activeQueueConfig} />
       </div>
       <div className="sidebar">
-        Column 3
+        <TempBar queueConfig={activeQueueConfig} />
       </div>
     </div>
   );

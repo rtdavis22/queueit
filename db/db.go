@@ -25,6 +25,7 @@ func NewDatabase() (*Database, error) {
 func (d *Database) Init() {
 	initFns := []func(){
 		d.InitQueueConfigTable,
+		d.InitTweetQueueItemTable,
 	}
 
 	for _, fn := range initFns {

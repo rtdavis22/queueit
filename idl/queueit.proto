@@ -15,7 +15,30 @@ message QueueConfigResponse {
   repeated QueueConfig configs = 1;
 }
 
+message TweetQueueItem {
+  uint64 id = 1;
+  string tweet_url = 2;
+}
+
+message GetTweetQueueItemsRequest {
+  uint64 queue_id = 1;
+}
+
+message GetTweetQueueItemsResponse {
+  repeated TweetQueueItem items = 1;
+}
+
+message CreateTweetQueueItemRequest {
+  uint64 queue_id = 1;
+  string tweet_url = 2;
+}
+
+message CreateTweetQueueItemResponse {
+
+}
+
 service QueueIt {
   rpc GetQueueConfigs(QueueConfigRequest) returns (QueueConfigResponse);
-  //rpc EchoStream(EchoRequest) returns (stream EchoResponse);
+  rpc GetTweetQueueItems(GetTweetQueueItemsRequest) returns (GetTweetQueueItemsResponse);
+  rpc CreateTweetQueueItem(CreateTweetQueueItemRequest) returns (CreateTweetQueueItemResponse);
 }

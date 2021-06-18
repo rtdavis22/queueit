@@ -31,3 +31,15 @@ func (s *service) GetQueueConfigs(
 		Configs: queueConfigs,
 	}, nil
 }
+
+func (s *service) CreateTweetQueueItem(
+	ctx context.Context,
+	request *idl.CreateTweetQueueItemRequest,
+) (*idl.CreateTweetQueueItemResponse, error) {
+	err := s.db.CreateTweetQueueItem(request.GetQueueId(), request.GetTweetUrl())
+	if err != nil {
+		return nil, err
+	}
+
+	return &idl.CreateTweetQueueItemResponse{}, nil
+}
