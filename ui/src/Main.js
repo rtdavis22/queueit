@@ -18,13 +18,26 @@ function Main(props) {
     }
   }, [props.queueConfig]);
 
+  useEffect(() => {
+    if (activeQueueItemId !== null) {
+      twttr.widgets.load(); // eslint-disable-line no-undef
+    }
+  }, [activeQueueItemId]);
+
   if (props.queueConfig === null) {
     return null;
   }
 
   let item = null;
   if (activeQueueItemId !== null) {
-    item = queueItems[activeQueueItemId].getTweetUrl();
+    item = (
+      <div>
+        <p>{queueItems[activeQueueItemId].getTweetUrl()}</p>
+        <blockquote className="twitter-tweet">
+          <a href={queueItems[activeQueueItemId].getTweetUrl()}>Tweet</a>
+        </blockquote>
+      </div>
+    );
   }
 
   return (
@@ -42,7 +55,7 @@ function Main(props) {
         disabled={activeQueueItemId === null || activeQueueItemId === queueItems.length - 1}>
         Next
       </button>
-      <p>{item}</p>
+      {item}
     </div>
   );
 }
