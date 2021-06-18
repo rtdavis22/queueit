@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React, {useState} from 'react';
 
-import {CreateTweetQueueItemRequest} from './gen/idl/queueit_pb';
-import {QueueItClient} from './gen/idl/queueit_grpc_web_pb';
+import QueueItAPI from './QueueItAPI';
 
 function TempBar(props) {
   const [tweetUrlText, setTweetUrlText] = useState('');
@@ -12,13 +11,7 @@ function TempBar(props) {
   }
 
   function submitItem() {
-    const client = new QueueItClient('http://localhost:8080');
-
-    const request = new CreateTweetQueueItemRequest();
-    request.setQueueId(props.queueConfig.getId());
-    request.setTweetUrl(tweetUrlText);
-
-    client.createTweetQueueItem(request);
+    QueueItAPI.CreateTweetQueueItem(props.queueConfig.getId(), tweetUrlText);
   }
 
   return (
@@ -27,7 +20,7 @@ function TempBar(props) {
       <input
         type="text"
         value={tweetUrlText}
-        onChange={(e) => setTweetUrlText(e.target.value)}
+        onChange={e => setTweetUrlText(e.target.value)}
       />
       <button type="button" onClick={submitItem}>
         Submit

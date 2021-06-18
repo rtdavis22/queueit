@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 
 import Main from './Main';
+import QueueItAPI from './QueueItAPI';
 import TempBar from './TempBar';
-import {QueueConfigRequest} from './gen/idl/queueit_pb';
-import {QueueItClient} from './gen/idl/queueit_grpc_web_pb';
 
 import './App.css';
 
@@ -12,21 +11,18 @@ export default function App() {
   const [activeQueueId, setActiveQueueId] = useState(null);
 
   useEffect(() => {
-    // Move elsewhere
-    const client = new QueueItClient('http://localhost:8080');
-
-    const request = new QueueConfigRequest();
-    request.setDomain('default');
-
-    client.getQueueConfigs(request, {}, (_, response) => {
-      setQueueConfigs(response.getConfigsList().reduce((acc, cur) => {
+    const res = QueueItAPI.GetQueueConfigs();
+    res.then(configList => {
+      setQueueConfigs(configList.reduce((acc, cur) => {
         acc[cur.getId()] = cur;
         return acc;
       }, {}));
+    }, () => {
+      // TODO: log error
     });
   }, []);
 
-  const nav = Object.keys(queueConfigs).map((id) => (
+  const nav = Object.keys(queueConfigs).map(id => (
     <li key={id}>
       <button type="button" onClick={() => setActiveQueueId(id)}>
         {queueConfigs[id].getName()}

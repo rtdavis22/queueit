@@ -22,6 +22,7 @@ module.exports = {
     'react',
   ],
   rules: {
+    "arrow-parens": ["error", "as-needed"],
     "object-curly-spacing": "off",
     "react/destructuring-assignment": "off",
     "react/jsx-closing-bracket-location": "off",
