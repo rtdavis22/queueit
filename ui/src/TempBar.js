@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
 import React, {useState} from 'react';
 
 import QueueItAPI from './QueueItAPI';
+import {QueueConfigType} from './Types';
 
 function TempBar(props) {
   const [tweetUrlText, setTweetUrlText] = useState('');
@@ -30,7 +30,7 @@ function TempBar(props) {
 }
 
 TempBar.propTypes = {
-  queueConfig: PropTypes.any,
+  queueConfig: QueueConfigType,
 };
 
 export default TempBar;

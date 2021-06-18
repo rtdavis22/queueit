@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import {QueueConfigType} from './Types';
 
 function Main(props) {
   if (props.queueConfig === null) {
@@ -13,7 +14,7 @@ function Main(props) {
 }
 
 Main.propTypes = {
-  queueConfig: PropTypes.any,
+  queueConfig: QueueConfigType,
 };
 
 export default Main;
