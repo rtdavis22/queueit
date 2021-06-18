@@ -20,14 +20,14 @@ type service struct {
 
 func (s *service) GetQueueConfigs(
 	ctx context.Context,
-	request *idl.QueueConfigRequest,
-) (*idl.QueueConfigResponse, error) {
+	request *idl.GetQueueConfigsRequest,
+) (*idl.GetQueueConfigsResponse, error) {
 	queueConfigs, err := s.db.GetQueueConfigsByDomain(request.GetDomain())
 	if err != nil {
 		return nil, err
 	}
 
-	return &idl.QueueConfigResponse{
+	return &idl.GetQueueConfigsResponse{
 		Configs: queueConfigs,
 	}, nil
 }

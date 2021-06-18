@@ -7,11 +7,11 @@ message QueueConfig {
   string name = 2;
 }
 
-message QueueConfigRequest {
+message GetQueueConfigsRequest {
   string domain = 1;
 }
 
-message QueueConfigResponse {
+message GetQueueConfigsResponse {
   repeated QueueConfig configs = 1;
 }
 
@@ -38,7 +38,7 @@ message CreateTweetQueueItemResponse {
 }
 
 service QueueIt {
-  rpc GetQueueConfigs(QueueConfigRequest) returns (QueueConfigResponse);
+  rpc GetQueueConfigs(GetQueueConfigsRequest) returns (GetQueueConfigsResponse);
   rpc GetTweetQueueItems(GetTweetQueueItemsRequest) returns (GetTweetQueueItemsResponse);
   rpc CreateTweetQueueItem(CreateTweetQueueItemRequest) returns (CreateTweetQueueItemResponse);
 }

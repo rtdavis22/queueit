@@ -1,6 +1,6 @@
 import {
   CreateTweetQueueItemRequest,
-  QueueConfigRequest,
+  GetQueueConfigsRequest,
 } from './gen/idl/queueit_pb';
 import {QueueItPromiseClient} from './gen/idl/queueit_grpc_web_pb';
 
@@ -15,7 +15,7 @@ export default class QueueItAPI {
   }
 
   static GetQueueConfigs() {
-    const request = new QueueConfigRequest();
+    const request = new GetQueueConfigsRequest();
     request.setDomain('default');
     return client.getQueueConfigs(request).then(response => response.getConfigsList());
   }
