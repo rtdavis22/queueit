@@ -64,3 +64,17 @@ func (s *service) GetTweetQueueItems(
 		Items: items,
 	}, nil
 }
+
+func (s *service) AddRecord(
+	ctx context.Context,
+	request *idl.AddRecordRequest,
+) (*idl.AddRecordResponse, error) {
+	record := request.GetRecord()
+
+	err := s.db.CreateDatasetRecord(record.GetDatasetId(), record.GetData())
+	if err != nil {
+		return nil, err
+	}
+
+	return &idl.AddRecordResponse{}, nil
+}

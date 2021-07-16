@@ -37,8 +37,22 @@ message CreateTweetQueueItemResponse {
 
 }
 
+message Record {
+  string dataset_id = 1;
+  map<string, string> data = 2;
+}
+
+message AddRecordRequest {
+  Record record = 1;
+}
+
+message AddRecordResponse {
+
+}
+
 service QueueIt {
   rpc GetQueueConfigs(GetQueueConfigsRequest) returns (GetQueueConfigsResponse);
   rpc GetTweetQueueItems(GetTweetQueueItemsRequest) returns (GetTweetQueueItemsResponse);
   rpc CreateTweetQueueItem(CreateTweetQueueItemRequest) returns (CreateTweetQueueItemResponse);
+  rpc AddRecord(AddRecordRequest) returns (AddRecordResponse);
 }

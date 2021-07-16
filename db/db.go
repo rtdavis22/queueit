@@ -24,6 +24,7 @@ func NewDatabase() (*Database, error) {
 
 func (d *Database) Init() {
 	initFns := []func(){
+		d.InitDatasetRecordTable,
 		d.InitQueueConfigTable,
 		d.InitTweetQueueItemTable,
 	}
